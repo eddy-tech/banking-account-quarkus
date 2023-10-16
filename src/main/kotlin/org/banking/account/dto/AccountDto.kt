@@ -1,4 +1,6 @@
 package org.banking.account.dto
 
-class AccountDto {
-}
+data class AccountDto (
+     var accountId: Long?,
+     var iban: String?,
+)

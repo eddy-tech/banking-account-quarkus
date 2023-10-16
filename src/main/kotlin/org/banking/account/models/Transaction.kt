@@ -2,35 +2,26 @@ package org.banking.account.models
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
-import lombok.AllArgsConstructor
-import lombok.Data
-import lombok.NoArgsConstructor
-import lombok.experimental.SuperBuilder
 import org.banking.account.utils.TransactionType
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@Data
-@SuperBuilder
+
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "transactions")
-class Transaction : PanacheEntityBase {
+data class Transaction (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private var transactionId: Long? = null
-    private val amount: BigDecimal? = null
+    @Column(name = "id", nullable = false) var transactionId: Long?,
+    var amount: BigDecimal?,
 
-    @Enumerated(EnumType.ORDINAL)
-    private val type: TransactionType? = null
-    private val destinationIban: String? = null
+    @Enumerated(EnumType.ORDINAL) var type: TransactionType?,
+    var destinationIban: String?,
 
-    @Column(updatable = false)
-    private var transactionDate: LocalDate? = null
+    @Column(updatable = false) var transactionDate: LocalDate?,
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private lateinit var user: User
+    @JoinColumn(name = "user_id") var user: User?
+) : PanacheEntityBase {
+    constructor() : this (null, null, null, null, null,null)
 }

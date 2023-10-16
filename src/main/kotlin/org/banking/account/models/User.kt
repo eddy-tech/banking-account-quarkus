@@ -9,33 +9,30 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import lombok.AllArgsConstructor
-import lombok.Data
-import lombok.NoArgsConstructor
-import lombok.experimental.SuperBuilder
 
 @Entity
 @Table(name = "_users")
-@AllArgsConstructor @NoArgsConstructor
-@Data
-@SuperBuilder
-class User : PanacheEntityBase {
+data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private var id: Long? = null
-    private val firstName: String? = null
-    private val lastName: String? = null
+     var id: Long?,
+     var firstName: String?,
+     var lastName: String?,
     @Column(unique = true)
-    private val email: String? = null
-    private val active: Boolean = false
+     var email: String?,
+     var password: String?,
+     var active: Boolean = false,
 
     @OneToOne
-    private lateinit var address : Address
+     var address : Address?,
     @OneToMany(mappedBy = "user")
-    private lateinit var transactionList : MutableList<Transaction>
+     var transactionList : MutableList<Transaction>?,
     @OneToMany(mappedBy = "user")
-    private lateinit var contactList : MutableList<Contact>
+     var contactList : MutableList<Contact>?,
     @OneToOne
-    private lateinit var account: Account
+     var account: Account?
+) : PanacheEntityBase {
+    constructor() :
+            this (null, null, null, null, null, false, null, null, null, null)
 }
