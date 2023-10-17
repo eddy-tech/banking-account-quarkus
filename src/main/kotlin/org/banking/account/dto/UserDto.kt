@@ -1,7 +1,6 @@
 package org.banking.account.dto
 
 import jakarta.validation.constraints.*
-import org.banking.account.models.User
 
 data class UserDto (
      var id: Long?,

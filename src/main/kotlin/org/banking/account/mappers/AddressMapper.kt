@@ -2,6 +2,7 @@ package org.banking.account.mappers
 
 import org.banking.account.dto.AddressDto
 import org.banking.account.models.Address
+import java.time.LocalDateTime
 
 object AddressMapper {
     fun fromAddress(address: Address): AddressDto = AddressDto(
@@ -21,6 +22,8 @@ object AddressMapper {
         country = addressDto.country,
         houseNumber = addressDto.houseNumber,
         zipCode = addressDto.zipCode,
-        user = addressDto.user
+        user = addressDto.user,
+        createdDate = LocalDateTime.now(),
+        lastModifiedDate = null
     )
 }

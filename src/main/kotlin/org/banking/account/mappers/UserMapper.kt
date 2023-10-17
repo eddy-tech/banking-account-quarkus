@@ -2,6 +2,7 @@ package org.banking.account.mappers
 
 import org.banking.account.dto.UserDto
 import org.banking.account.models.User
+import java.time.LocalDateTime
 
 object UserMapper {
     fun fromUser(user: User): UserDto = UserDto(
@@ -20,8 +21,10 @@ object UserMapper {
         password = userDto.password,
         active = false,
         address = null,
-        transactionList = mutableListOf(),
-        contactList = mutableListOf(),
-        account = null
+        transactionList = null,
+        contactList = null,
+        account = null,
+        createdDate = LocalDateTime.now(),
+        lastModifiedDate = null
     )
 }

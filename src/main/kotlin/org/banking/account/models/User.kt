@@ -9,30 +9,46 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "_users")
-data class User (
+class User(
+    id: Long?, firstName: String?, lastName: String?, email: String?, password: String?, active: Boolean,
+    createdDate: LocalDateTime?, lastModifiedDate: LocalDateTime?, address : Address?,
+    transactionList : List<Transaction>?, contactList : List<Contact>?, account: Account?
+) : PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-     var id: Long?,
-     var firstName: String?,
-     var lastName: String?,
+    var id: Long? = null
+    var firstName: String? = null
+    var lastName: String? = null
+
     @Column(unique = true)
-     var email: String?,
-     var password: String?,
-     var active: Boolean = false,
+    var email: String? = null
+    var password: String? = null
+    var active: Boolean = false
+
+    @Column(name = "created_date", nullable = false, updatable = false)
+    var createdDate: LocalDateTime? = null
+
+    @Column(name = "lastModified_date", insertable = false)
+    var lastModifiedDate: LocalDateTime? = null
+
 
     @OneToOne
-     var address : Address?,
+    var address : Address? = null
     @OneToMany(mappedBy = "user")
-     var transactionList : MutableList<Transaction>?,
+    var transactionList : List<Transaction>? = null
     @OneToMany(mappedBy = "user")
-     var contactList : MutableList<Contact>?,
+    var contactList : List<Contact>? = null
     @OneToOne
-     var account: Account?
-) : PanacheEntityBase {
-    constructor() :
-            this (null, null, null, null, null, false, null, null, null, null)
+    var account: Account? = null
+
+    constructor() : this(
+        null,null, null, null, null, false, LocalDateTime.now(), null,
+        null, null, null, null
+    )
+
 }

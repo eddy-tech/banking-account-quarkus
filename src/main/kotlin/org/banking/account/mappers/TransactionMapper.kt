@@ -2,8 +2,9 @@ package org.banking.account.mappers
 
 import org.banking.account.dto.TransactionDto
 import org.banking.account.models.Transaction
+import java.time.LocalDateTime
 
-    object TransactionMapper {
+object TransactionMapper {
         fun fromTransaction(transaction: Transaction): TransactionDto = TransactionDto(
                 transactionId = transaction.transactionId,
                 amount = transaction.amount,
@@ -19,6 +20,8 @@ import org.banking.account.models.Transaction
                 type = transactionDto.type,
                 destinationIban = transactionDto.destinationIban,
                 transactionDate = transactionDto.transactionDate,
-                user = transactionDto.user
+                user = transactionDto.user,
+                createdDate = LocalDateTime.now(),
+                lastModifiedDate = null
             )
     }

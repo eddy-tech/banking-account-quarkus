@@ -2,6 +2,7 @@ package org.banking.account.mappers
 
 import org.banking.account.dto.ContactDto
 import org.banking.account.models.Contact
+import java.time.LocalDateTime
 
 object ContactMapper {
     fun fromContact(contact: Contact) : ContactDto = ContactDto(
@@ -19,6 +20,8 @@ object ContactMapper {
         lastName = contactDto.lastName,
         email = contactDto.email,
         iban = contactDto.iban,
-        user = contactDto.user
+        user = contactDto.user,
+        createdDate = LocalDateTime.now(),
+        lastModifiedDate = null
     )
 }
