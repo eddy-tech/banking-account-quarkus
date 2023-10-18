@@ -1,9 +1,11 @@
 package org.banking.account.mappers
 
+import jakarta.enterprise.context.ApplicationScoped
 import org.banking.account.dto.AddressDto
 import org.banking.account.models.Address
 import java.time.LocalDateTime
 
+@ApplicationScoped
 object AddressMapper {
     fun fromAddress(address: Address): AddressDto = AddressDto(
         addressId = address.addressId,

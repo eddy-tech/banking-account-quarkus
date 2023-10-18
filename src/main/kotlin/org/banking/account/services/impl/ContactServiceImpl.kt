@@ -12,7 +12,7 @@ import org.banking.account.validators.ObjectValidator
 
 @ApplicationScoped
 @Transactional
-class ContactServiceImpl @Inject constructor(
+class ContactServiceImpl (
     private var contactRepository: ContactRepository,
     private var validator: ObjectValidator,
     private var contactMapper: ContactMapper,
@@ -26,7 +26,8 @@ class ContactServiceImpl @Inject constructor(
     }
 
     override fun update(contactDto: ContactDto, id: Long): ContactDto {
-        val existingContact = contactRepository.findById(id) ?: throw EntityNotFoundException("No contact with id = $id has been found")
+        val existingContact = contactRepository.findById(id)
+            ?: throw EntityNotFoundException("No contact with id = $id has been found")
         existingContact.let {
             it.firstName = contactDto.firstName
             it.lastName = contactDto.lastName

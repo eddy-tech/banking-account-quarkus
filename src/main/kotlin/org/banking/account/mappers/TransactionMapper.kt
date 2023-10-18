@@ -1,9 +1,11 @@
 package org.banking.account.mappers
 
+import jakarta.enterprise.context.ApplicationScoped
 import org.banking.account.dto.TransactionDto
 import org.banking.account.models.Transaction
 import java.time.LocalDateTime
 
+@ApplicationScoped
 object TransactionMapper {
         fun fromTransaction(transaction: Transaction): TransactionDto = TransactionDto(
                 transactionId = transaction.transactionId,

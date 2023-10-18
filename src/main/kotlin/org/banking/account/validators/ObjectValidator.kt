@@ -1,5 +1,6 @@
 package org.banking.account.validators
 
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.validation.ConstraintViolation
 import jakarta.validation.Validation
 import jakarta.validation.Validator
@@ -7,6 +8,7 @@ import jakarta.validation.ValidatorFactory
 import org.banking.account.exceptions.ObjectValidationException
 import java.util.stream.Collectors
 
+@ApplicationScoped
 class ObjectValidator {
     private val factory: ValidatorFactory = Validation.buildDefaultValidatorFactory()
     private val validator: Validator = factory.validator

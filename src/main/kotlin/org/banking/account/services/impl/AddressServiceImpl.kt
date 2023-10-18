@@ -12,10 +12,10 @@ import org.banking.account.validators.ObjectValidator
 
 @ApplicationScoped
 @Transactional
-class AddressServiceImpl @Inject constructor(
-    private var addressRepository : AddressRepository,
-    private var validator : ObjectValidator,
-    private var addressMapper : AddressMapper
+class AddressServiceImpl(
+    private var addressRepository: AddressRepository,
+    private var validator: ObjectValidator,
+    private var addressMapper: AddressMapper
 ) : AddressService{
     override fun save(addressDto: AddressDto): AddressDto {
         validator.validate(addressDto)
@@ -26,7 +26,8 @@ class AddressServiceImpl @Inject constructor(
     }
 
     override fun update(addressDto: AddressDto, id: Long): AddressDto {
-       val existingAddress = addressRepository.findById(id) ?: throw EntityNotFoundException("No Address with id = $id exists")
+       val existingAddress = addressRepository.findById(id)
+           ?: throw EntityNotFoundException("No Address with id = $id exists")
         validator.validate(addressDto)
         existingAddress.let {
             it.city = addressDto.city

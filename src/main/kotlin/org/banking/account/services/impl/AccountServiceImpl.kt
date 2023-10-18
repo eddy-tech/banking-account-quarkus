@@ -1,7 +1,6 @@
 package org.banking.account.services.impl
 
 import jakarta.enterprise.context.ApplicationScoped
-import jakarta.inject.Inject
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
 import org.banking.account.dto.AccountDto
@@ -14,12 +13,11 @@ import org.banking.account.validators.ObjectValidator
 import org.iban4j.CountryCode
 import org.iban4j.Iban
 import java.util.logging.Logger
-import java.util.stream.Collectors
-import kotlin.streams.toList
+
 
 @Transactional
 @ApplicationScoped
-class AccountServiceImpl @Inject constructor(
+class AccountServiceImpl (
     private var accountRepository: AccountRepository,
     private var validator: ObjectValidator,
     private var accountMapper : AccountMapper
@@ -44,7 +42,8 @@ class AccountServiceImpl @Inject constructor(
     }
 
     override fun update(accountDto: AccountDto, id: Long): AccountDto {
-        val existingAccount = accountRepository.findById(id) ?: throw EntityNotFoundException("Account with id $id not found")
+        val existingAccount = accountRepository.findById(id)
+            ?: throw EntityNotFoundException("Account with id = $id has not been not found")
         validator.validate(accountDto)
         existingAccount.let {
             it.user = accountDto.user!!

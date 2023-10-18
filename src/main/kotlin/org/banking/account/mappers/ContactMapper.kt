@@ -1,9 +1,11 @@
 package org.banking.account.mappers
 
+import jakarta.enterprise.context.ApplicationScoped
 import org.banking.account.dto.ContactDto
 import org.banking.account.models.Contact
 import java.time.LocalDateTime
 
+@ApplicationScoped
 object ContactMapper {
     fun fromContact(contact: Contact) : ContactDto = ContactDto(
         id = contact.id,
