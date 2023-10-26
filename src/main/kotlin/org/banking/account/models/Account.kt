@@ -2,20 +2,30 @@ package org.banking.account.models
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
-import lombok.AllArgsConstructor
-import lombok.Data
-import lombok.NoArgsConstructor
-import lombok.experimental.SuperBuilder
+import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 
 @Entity
-@AllArgsConstructor @NoArgsConstructor
-@Data
-@SuperBuilder
 @Table(name = "accounts")
+@Serializable
 class Account : PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts_id_seq")
+    @SequenceGenerator(name = "accounts_id_seq", sequenceName = "accounts_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
-    private var accountId: Long? = null
-    private val iban: String? = null
+    var accountId: Long? = null
+    lateinit var iban: String
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    var user: User? = null
+
+    @Column(name = "created_date", nullable = false, updatable = false)
+    lateinit var createdDate: LocalDateTime
+
+    @Column(name = "lastModified_date", insertable = false)
+    lateinit var lastModifiedDate: LocalDateTime
 }
+
+
+
