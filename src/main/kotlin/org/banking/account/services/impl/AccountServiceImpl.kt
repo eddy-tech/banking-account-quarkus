@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional
 import org.banking.account.dto.AccountDto
 import org.banking.account.exceptions.OperationNoPermittedException
 import org.banking.account.mappers.AccountMapper
+import org.banking.account.mappers.UserMapper
 import org.banking.account.models.Account
 import org.banking.account.repositories.AccountRepository
 import org.banking.account.services.interfaces.AccountService
@@ -20,18 +21,19 @@ import java.util.logging.Logger
 class AccountServiceImpl (
     private var accountRepository: AccountRepository,
     private var validator: ObjectValidator,
-    private var accountMapper : AccountMapper
+    private var accountMapper : AccountMapper,
+    private var userMapper: UserMapper
 ) : AccountService {
-    override fun save(accountDto: AccountDto): AccountDto {
-        validator.validate(accountDto)
-        val account : Account = accountMapper.toAccountDto(accountDto)
-        val userHasAlreadyAccount = accountDto.user?.id?.let { accountRepository.findByUserId(it).isPresent }
-        if(userHasAlreadyAccount!! && accountDto.user!!.active) {
+    override fun save(dto: AccountDto): AccountDto {
+        validator.validate(dto)
+        val account : Account = accountMapper.toAccountDto(dto)
+        val userHasAlreadyAccount = dto.user?.id?.let { accountRepository.findByUserId(it).isPresent }
+        if(userHasAlreadyAccount!! && account.user?.active == true) {
             throw OperationNoPermittedException(
-                "The selected user has already an active account",
-                "Create account",
-                "Account service",
-                "Account creating"
+                    "The selected user has already an active account",
+                    "Create account",
+                    "Account service",
+                    "Account creating"
             )
         }
 
@@ -41,14 +43,15 @@ class AccountServiceImpl (
         return accountMapper.fromAccount(account)
     }
 
-    override fun update(accountDto: AccountDto, id: Long): AccountDto {
+    override fun update(dto: AccountDto, id: Long): AccountDto {
         val existingAccount = accountRepository.findById(id)
             ?: throw EntityNotFoundException("Account with id = $id has not been not found")
-        validator.validate(accountDto)
+
         existingAccount.let {
-            it.user = accountDto.user!!
-            it.iban = accountDto.iban!!
+            it.user = dto.user?.let { it1-> userMapper.toUserDto(it1) }
+            it.iban = dto.iban!!
         }
+        validator.validate(dto)
         accountRepository.persist(existingAccount)
 
         return accountMapper.fromAccount(existingAccount)

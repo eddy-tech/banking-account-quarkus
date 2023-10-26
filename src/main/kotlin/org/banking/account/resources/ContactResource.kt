@@ -25,13 +25,13 @@ class ContactResource (
 
         return Response.created(URI.create(""))
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Contact saved successfully",
-                    status = Response.Status.CREATED,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Contact saved successfully"
+                    status = Response.Status.CREATED
                     statusCode = Response.Status.CREATED.statusCode
-                )
+                }
             )
             .build()
     }
@@ -45,13 +45,13 @@ class ContactResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Contact has been updated successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Contact has been updated successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -59,19 +59,9 @@ class ContactResource (
     @GET
     fun getAllContact() : Response {
         val contactList = contactService.getAll()
-        val responseMap = HashMap<String, List<ContactDto>>()
-        responseMap["contact"] = contactList
 
         return Response.ok()
-            .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Lists of contacts",
-                    status = Response.Status.OK,
-                    statusCode = Response.Status.OK.statusCode
-                )
-            )
+            .entity(contactList)
             .build()
     }
 
@@ -84,13 +74,13 @@ class ContactResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Get Contact with id = $id has been successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Get Contact with id = $id has been successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -104,13 +94,13 @@ class ContactResource (
 
         return Response.accepted()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Contact with id = $id has been deleted with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Contact with id = $id has been deleted with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }

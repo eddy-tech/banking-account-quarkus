@@ -10,4 +10,9 @@ class ContactRepository: PanacheRepositoryBase<Contact, Long> {
         "select c from Contact c where c.user.id = ?1",
         userId
     )
+
+    fun findContactByEmail(email : String) : Boolean {
+        val contactQuery = find("email", email).firstResult()
+        return contactQuery != null
+    }
 }

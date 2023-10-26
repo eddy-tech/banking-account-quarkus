@@ -17,6 +17,8 @@ class UserResource (
     private var userService: UserService
 ) {
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     fun saveAccount(userDto: UserDto): Response{
         val newUser = userService.save(userDto)
         val responseMap = HashMap<String, UserDto>()
@@ -24,13 +26,13 @@ class UserResource (
 
         return Response.created(URI.create(""))
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "User saved successfully",
-                    status = Response.Status.CREATED,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "User saved successfully"
+                    status = Response.Status.CREATED
                     statusCode = Response.Status.CREATED.statusCode
-                )
+                }
             )
         .build()
     }
@@ -44,13 +46,13 @@ class UserResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "User has been updated successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "User has been updated successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -58,19 +60,9 @@ class UserResource (
     @GET
     fun getAllUser() : Response {
         val userList = userService.getAll()
-        val responseMap = HashMap<String, List<UserDto>>()
-        responseMap["user"] = userList
 
         return Response.ok()
-            .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Lists of users",
-                    status = Response.Status.OK,
-                    statusCode = Response.Status.OK.statusCode
-                )
-            )
+            .entity(userList)
         .build()
     }
 
@@ -83,13 +75,13 @@ class UserResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Get User with id = $id has been successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Get User with id = $id has been successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -103,13 +95,13 @@ class UserResource (
 
         return Response.accepted()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "User with id = $id has been deleted with successfully",
-                    status = Response.Status.OK,
-                    statusCode = Response.Status.OK.statusCode
-                )
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "User with id = $id has been deleted with successfully"
+                    status = Response.Status.NO_CONTENT
+                    statusCode = Response.Status.NO_CONTENT.statusCode
+                }
             )
         .build()
     }
@@ -123,13 +115,13 @@ class UserResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "User with id = $id has been validated with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "User with id = $id has been validated with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -143,13 +135,13 @@ class UserResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "User with id = $id has been invalidated with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "User with id = $id has been invalidated with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }

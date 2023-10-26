@@ -3,29 +3,29 @@ package org.banking.account.mappers
 import jakarta.enterprise.context.ApplicationScoped
 import org.banking.account.dto.AddressDto
 import org.banking.account.models.Address
+import org.banking.account.models.User
 import java.time.LocalDateTime
 
 @ApplicationScoped
-object AddressMapper {
-    fun fromAddress(address: Address): AddressDto = AddressDto(
-        addressId = address.addressId,
-        street = address.street,
-        city = address.city,
-        country = address.country,
-        houseNumber = address.houseNumber,
-        zipCode = address.zipCode,
-        user = address.user
-    )
+class AddressMapper {
+    fun fromAddress(address: Address): AddressDto = AddressDto().also {
+        it.addressId = address.addressId
+        it.street = address.street
+        it.city = address.city
+        it.country = address.country
+        it.houseNumber = address.houseNumber
+        it.zipCode = address.zipCode
+        it.userId = address.user?.id
+    }
 
-    fun toAddressDto(addressDto: AddressDto): Address = Address(
-        addressId = addressDto.addressId,
-        street = addressDto.street,
-        city = addressDto.city,
-        country = addressDto.country,
-        houseNumber = addressDto.houseNumber,
-        zipCode = addressDto.zipCode,
-        user = addressDto.user,
-        createdDate = LocalDateTime.now(),
-        lastModifiedDate = null
-    )
+    fun toAddressDto(addressDto: AddressDto): Address = Address().also {
+        it.addressId = addressDto.addressId
+        it.street = addressDto.street
+        it.city = addressDto.city
+        it.country = addressDto.country
+        it.houseNumber = addressDto.houseNumber
+        it.zipCode = addressDto.zipCode
+        it.user = User().apply { id = addressDto.userId }
+        it.createdDate = LocalDateTime.now()
+    }
 }

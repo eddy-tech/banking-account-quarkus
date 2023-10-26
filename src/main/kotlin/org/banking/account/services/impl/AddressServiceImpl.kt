@@ -17,26 +17,27 @@ class AddressServiceImpl(
     private var validator: ObjectValidator,
     private var addressMapper: AddressMapper
 ) : AddressService{
-    override fun save(addressDto: AddressDto): AddressDto {
-        validator.validate(addressDto)
-        val saveAddress = addressMapper.toAddressDto(addressDto)
+    override fun save(dto: AddressDto): AddressDto {
+        validator.validate(dto)
+        val saveAddress = addressMapper.toAddressDto(dto)
         addressRepository.persist(saveAddress)
 
         return addressMapper.fromAddress(saveAddress)
     }
 
-    override fun update(addressDto: AddressDto, id: Long): AddressDto {
+    override fun update(dto: AddressDto, id: Long): AddressDto {
        val existingAddress = addressRepository.findById(id)
            ?: throw EntityNotFoundException("No Address with id = $id exists")
-        validator.validate(addressDto)
+
         existingAddress.let {
-            it.city = addressDto.city
-            it.country = addressDto.country
-            it.houseNumber = addressDto.houseNumber
-            it.street = addressDto.street
-            it.zipCode = addressDto.zipCode
-            it.user = addressDto.user
+            it.city = dto.city
+            it.country = dto.country
+            it.houseNumber = dto.houseNumber
+            it.street = dto.street
+            it.zipCode = dto.zipCode
+            it.user?.id = dto.userId
         }
+        validator.validate(dto)
         addressRepository.persist(existingAddress)
 
         return addressMapper.fromAddress(existingAddress)

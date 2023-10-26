@@ -1,12 +1,14 @@
 package org.banking.account.dto
 
+import kotlinx.serialization.Serializable
 import org.banking.account.models.User
 
+@Serializable
 data class ContactDto(
-     var id: Long?,
-     var firstName: String?,
-     var lastName: String?,
-     var email: String?,
-     var iban: String?,
-     var user: User?
+     var id: Long? = null,
+     var firstName: String? = null,
+     var lastName: String? = null,
+     var email: String? = null,
+     var iban: String? = null,
+     var userId: Long? = null
 )

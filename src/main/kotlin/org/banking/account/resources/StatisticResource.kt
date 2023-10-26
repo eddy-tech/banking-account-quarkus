@@ -18,7 +18,6 @@ import java.time.LocalDateTime
 
 @Path("${RootEndPoint.ROOT_ENDPOINT}/statistics")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 class StatisticResource(
     private var statisticService: StatisticService
 ) {
@@ -26,8 +25,8 @@ class StatisticResource(
     @GET
     @Path("/sum-by-date/{id}")
     fun getSumTransactionByDate(
-        @QueryParam("start-date") startDate: LocalDate,
-        @QueryParam("end-date") endDate: LocalDate,
+        @QueryParam("start-date")startDate: LocalDate,
+        @QueryParam("end-date")endDate: LocalDate,
         @PathParam("id") userId: Long
     ) : Response {
         val sumTransaction = statisticService.findSumTransactionByDate(startDate, endDate, userId)
@@ -36,13 +35,13 @@ class StatisticResource(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "New Sum Transaction success!!",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "New Sum Transaction success!!"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -56,13 +55,13 @@ class StatisticResource(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Account balance has been found with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Account balance has been found with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -76,13 +75,13 @@ class StatisticResource(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Highest transfer has been found with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Highest transfer has been found with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -96,13 +95,13 @@ class StatisticResource(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Highest deposit has been found with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Highest deposit has been found with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }

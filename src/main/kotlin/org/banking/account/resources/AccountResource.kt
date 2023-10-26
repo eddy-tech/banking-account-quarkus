@@ -1,7 +1,5 @@
 package org.banking.account.resources
 
-import io.netty.handler.codec.http.HttpResponseStatus
-import jakarta.inject.Inject
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
@@ -23,7 +21,7 @@ import java.time.LocalDateTime
 @Path("$ROOT_ENDPOINT/accounts")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class AccountResource @Inject constructor(
+class AccountResource (
     private var accountService: AccountService
 ) {
     @POST
@@ -34,13 +32,13 @@ class AccountResource @Inject constructor(
 
         return Response.created(URI.create(""))
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Account saved successfully",
-                    status = Status.CREATED,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Account saved successfully"
+                    status = Status.CREATED
                     statusCode = Status.CREATED.statusCode
-                )
+                }
             )
             .build()
     }
@@ -54,13 +52,13 @@ class AccountResource @Inject constructor(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Account has been updated successfully",
-                    status = Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Account has been updated successfully"
+                    status = Status.OK
                     statusCode = Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -68,19 +66,9 @@ class AccountResource @Inject constructor(
     @GET
     fun getAllAccount() : Response {
         val accountList = accountService.getAll()
-        val responseMap = HashMap<String, List<AccountDto>>()
-        responseMap["account"] = accountList
 
         return Response.ok()
-            .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Lists of accounts",
-                    status = Status.OK,
-                    statusCode = Status.OK.statusCode
-                )
-            )
+            .entity(accountList)
             .build()
     }
 
@@ -93,13 +81,13 @@ class AccountResource @Inject constructor(
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Get Account with id = $id has been successfully",
-                    status = Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Get Account with id = $id has been successfully"
+                    status = Status.OK
                     statusCode = Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -113,13 +101,13 @@ class AccountResource @Inject constructor(
 
         return Response.accepted()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Account with id = $id has been deleted with successfully",
-                    status = Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Account with id = $id has been deleted with successfully"
+                    status = Status.OK
                     statusCode = Status.OK.statusCode
-                )
+                }
             )
             .build()
     }

@@ -3,27 +3,27 @@ package org.banking.account.mappers
 import jakarta.enterprise.context.ApplicationScoped
 import org.banking.account.dto.ContactDto
 import org.banking.account.models.Contact
+import org.banking.account.models.User
 import java.time.LocalDateTime
 
 @ApplicationScoped
-object ContactMapper {
-    fun fromContact(contact: Contact) : ContactDto = ContactDto(
-        id = contact.id,
-        firstName = contact.firstName,
-        lastName = contact.lastName,
-        email = contact.email,
-        iban = contact.iban,
-        user = contact.user
-    )
+class ContactMapper {
+    fun fromContact(contact: Contact) : ContactDto = ContactDto().also {
+        it.id = contact.id
+        it.firstName = contact.firstName
+        it.lastName = contact.lastName
+        it.email = contact.email
+        it.iban = contact.iban
+        it.userId = contact.user?.id
+    }
 
-    fun toContactDto(contactDto: ContactDto) : Contact = Contact(
-        id = contactDto.id,
-        firstName = contactDto.firstName,
-        lastName = contactDto.lastName,
-        email = contactDto.email,
-        iban = contactDto.iban,
-        user = contactDto.user,
-        createdDate = LocalDateTime.now(),
-        lastModifiedDate = null
-    )
+    fun toContactDto(contactDto: ContactDto) : Contact = Contact().also{
+        it.id = contactDto.id
+        it.firstName = contactDto.firstName
+        it.lastName = contactDto.lastName
+        it.email = contactDto.email
+        it.iban = contactDto.iban
+        it.user = User().apply { id = contactDto.userId }
+        it.createdDate = LocalDateTime.now()
+    }
 }

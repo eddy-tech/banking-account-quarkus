@@ -24,13 +24,13 @@ class TransactionResource (
 
         return Response.created(URI.create(""))
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Transaction has been saved successfully",
-                    status = Response.Status.CREATED,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Transaction has been saved successfully"
+                    status = Response.Status.CREATED
                     statusCode = Response.Status.CREATED.statusCode
-                )
+                }
             )
         .build()
     }
@@ -44,13 +44,13 @@ class TransactionResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Transaction has been updated successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Transaction has been updated successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -58,19 +58,9 @@ class TransactionResource (
     @GET
     fun getAllTransaction() : Response {
         val transactionList = transactionService.getAll()
-        val responseMap = HashMap<String, List<TransactionDto>>()
-        responseMap["transactions"] = transactionList
 
         return Response.ok()
-            .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Lists of transactions",
-                    status = Response.Status.OK,
-                    statusCode = Response.Status.OK.statusCode
-                )
-            )
+            .entity(transactionList)
         .build()
     }
 
@@ -83,13 +73,13 @@ class TransactionResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Get Transaction with id = $id has been successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Get Transaction with id = $id has been successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -103,13 +93,13 @@ class TransactionResource (
 
         return Response.accepted()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Transaction with id = $id has been deleted with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Transaction with id = $id has been deleted with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
         .build()
     }
@@ -118,18 +108,9 @@ class TransactionResource (
     @Path("/users/{id}")
     fun getAllTransactionByUser(@PathParam("id") userId: Long) : Response {
         val transactionByUser = transactionService.findAllByUser(userId)
-        val responseMap = HashMap<String, List<TransactionDto>>()
-        responseMap["transactions"] = transactionByUser
 
-        return Response.ok().entity(
-            HttpResponse(
-                timeStamp = LocalDateTime.now().toString(),
-                data = responseMap,
-                message = "All lists of transactions has been upload",
-                status = Response.Status.OK,
-                statusCode = Response.Status.OK.statusCode
-            )
-        )
+        return Response.ok()
+            .entity(transactionByUser)
         .build()
     }
 }

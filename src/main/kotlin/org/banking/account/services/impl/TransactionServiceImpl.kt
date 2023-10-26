@@ -19,9 +19,9 @@ class TransactionServiceImpl(
     private var validator: ObjectValidator,
     private var transactionMapper: TransactionMapper
 ) : TransactionService{
-    override fun save(transactionDto: TransactionDto): TransactionDto {
-        validator.validate(transactionDto)
-        val transaction = transactionMapper.toTransactionDto(transactionDto)
+    override fun save(dto: TransactionDto): TransactionDto {
+        validator.validate(dto)
+        val transaction = transactionMapper.toTransactionDto(dto)
         val transactionMultiplier = transaction.type?.let { getTransactionType(it) }
         val amount = transaction.amount.let {
             it?.multiply(
@@ -35,15 +35,16 @@ class TransactionServiceImpl(
         return transactionMapper.fromTransaction(transaction)
     }
 
-    override fun update(transactionDto: TransactionDto, id: Long): TransactionDto {
+    override fun update(dto: TransactionDto, id: Long): TransactionDto {
        val existingTransaction = transactionRepository.findById(id)
            ?: throw EntityNotFoundException("No Transaction with id = $id exists")
-        validator.validate(transactionDto)
+
         existingTransaction.let {
-            it.amount = transactionDto.amount
-            it.type = transactionDto.type
-            it.user = transactionDto.user
+            it.amount = dto.amount
+            it.type = dto.type
+            it.user?.id = dto.userId
         }
+        validator.validate(dto)
         transactionRepository.persist(existingTransaction)
 
         return transactionMapper.fromTransaction(existingTransaction)

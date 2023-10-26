@@ -25,13 +25,13 @@ class AddressResource (
 
         return Response.created(URI.create(""))
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Address saved successfully",
-                    status = Response.Status.CREATED,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Address saved successfully"
+                    status = Response.Status.CREATED
                     statusCode = Response.Status.CREATED.statusCode
-                )
+                }
             )
             .build()
     }
@@ -45,13 +45,13 @@ class AddressResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Address has been updated successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Address has been updated successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -59,19 +59,9 @@ class AddressResource (
     @GET
     fun getAllAddress() : Response {
         val addressList = addressService.getAll()
-        val responseMap = HashMap<String, List<AddressDto>>()
-        responseMap["address"] = addressList
 
         return Response.ok()
-            .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Lists of addresses",
-                    status = Response.Status.OK,
-                    statusCode = Response.Status.OK.statusCode
-                )
-            )
+            .entity(addressList)
             .build()
     }
 
@@ -84,13 +74,13 @@ class AddressResource (
 
         return Response.ok()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Get Address with id = $id has been successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Get Address with id = $id has been successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }
@@ -104,13 +94,13 @@ class AddressResource (
 
         return Response.accepted()
             .entity(
-                HttpResponse(
-                    timeStamp = LocalDateTime.now().toString(),
-                    data = responseMap,
-                    message = "Address with id = $id has been deleted with successfully",
-                    status = Response.Status.OK,
+                HttpResponse().apply {
+                    timeStamp = LocalDateTime.now().toString()
+                    data = responseMap
+                    message = "Address with id = $id has been deleted with successfully"
+                    status = Response.Status.OK
                     statusCode = Response.Status.OK.statusCode
-                )
+                }
             )
             .build()
     }

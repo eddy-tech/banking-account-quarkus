@@ -2,6 +2,7 @@ package org.banking.account.models
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
+import kotlinx.serialization.Serializable
 import org.banking.account.utils.TransactionType
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -10,12 +11,11 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "transactions")
-class Transaction (
-    transactionId: Long?, amount: BigDecimal?, type: TransactionType?, destinationIban: String?,
-    transactionDate: LocalDate?, createdDate: LocalDateTime?, lastModifiedDate: LocalDateTime?,  user: User?
-) : PanacheEntityBase {
+@Serializable
+class Transaction : PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_id_seq")
+    @SequenceGenerator(name = "transactions_id_seq", sequenceName = "transactions_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     var transactionId: Long? = null
     var amount: BigDecimal? = null
@@ -36,10 +36,4 @@ class Transaction (
     @ManyToOne
     @JoinColumn(name = "user_id")
     var user: User? = null
-
-    constructor() : this(
-        null,null, null, null, null, LocalDateTime.now(),
-        null, null
-    )
-
 }

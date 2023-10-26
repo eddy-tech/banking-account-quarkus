@@ -9,12 +9,12 @@ import java.util.Optional
 @ApplicationScoped
 class AccountRepository: PanacheRepositoryBase<Account, Long> {
     fun findByIban (iban: String) : Optional<Account>?{
-        val queryIban : Account? = find("iban", iban).firstResult()
+        val queryIban : Account? = find("iban = ?1", iban).firstResult()
         return Optional.ofNullable(queryIban)
     }
 
-    fun findByUserId(userId: Long) : Optional<Account> {
-        val queryAccount : Account? = find("userId", userId).firstResult()
+    fun findByUserId(id: Long) : Optional<Account> {
+        val queryAccount : Account? = find("user.id = ?1", id).firstResult()
         return Optional.ofNullable(queryAccount)
     }
 }

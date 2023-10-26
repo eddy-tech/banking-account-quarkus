@@ -1,25 +1,17 @@
 package org.banking.account.models
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "_users")
-class User(
-    id: Long?, firstName: String?, lastName: String?, email: String?, password: String?, active: Boolean,
-    createdDate: LocalDateTime?, lastModifiedDate: LocalDateTime?, address : Address?,
-    transactionList : List<Transaction>?, contactList : List<Contact>?, account: Account?
-) : PanacheEntityBase {
+@Serializable
+class User : PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "_users_id_seq")
+    @SequenceGenerator(name = "_users_id_seq", sequenceName = "_users_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     var id: Long? = null
     var firstName: String? = null
@@ -45,10 +37,5 @@ class User(
     var contactList : List<Contact>? = null
     @OneToOne
     var account: Account? = null
-
-    constructor() : this(
-        null,null, null, null, null, false, LocalDateTime.now(), null,
-        null, null, null, null
-    )
 
 }

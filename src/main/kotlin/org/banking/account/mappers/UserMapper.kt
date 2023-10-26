@@ -6,27 +6,21 @@ import org.banking.account.models.User
 import java.time.LocalDateTime
 
 @ApplicationScoped
-object UserMapper {
-    fun fromUser(user: User): UserDto = UserDto(
-        id = user.id,
-        firstName = user.firstName,
-        lastName = user.lastName,
-        email = user.email,
-        password = user.password
-    )
+class UserMapper {
+    fun fromUser(user: User): UserDto = UserDto().also {
+        it.id = user.id
+        it.firstName = user.firstName
+        it.lastName = user.lastName
+        it.email = user.email
+        it.password = user.password
+    }
 
-    fun toUserDto(userDto: UserDto): User = User(
-        id = userDto.id,
-        firstName = userDto.firstName,
-        lastName = userDto.lastName,
-        email = userDto.email,
-        password = userDto.password,
-        active = false,
-        address = null,
-        transactionList = null,
-        contactList = null,
-        account = null,
-        createdDate = LocalDateTime.now(),
-        lastModifiedDate = null
-    )
+    fun toUserDto(userDto: UserDto): User = User().also{
+        it.id = userDto.id
+        it.firstName = userDto.firstName
+        it.lastName = userDto.lastName
+        it.email = userDto.email
+        it.password = userDto.password
+        it.createdDate = LocalDateTime.now()
+    }
 }
